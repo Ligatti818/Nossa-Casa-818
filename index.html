@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -14,107 +15,107 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 :root {
-  --green: #1D9E75;
-  --green-light: #E1F5EE;
-  --green-dark: #085041;
-  --amber: #EF9F27;
-  --amber-light: #FAEEDA;
-  --red: #E24B4A;
-  --red-light: #FCEBEB;
-  --blue: #378ADD;
-  --blue-light: #E6F1FB;
-  --blue-dark: #0C447C;
-  --pink-light: #FBEAF0;
-  --pink-dark: #72243E;
-  --bg: #FAFAF8;
-  --surface: #FFFFFF;
-  --border: rgba(0,0,0,0.10);
-  --border-md: rgba(0,0,0,0.16);
-  --text: #1A1A18;
-  --muted: #6B6B68;
-  --hint: #A0A09D;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --radius-pill: 20px;
+–green: #1D9E75;
+–green-light: #E1F5EE;
+–green-dark: #085041;
+–amber: #EF9F27;
+–amber-light: #FAEEDA;
+–red: #E24B4A;
+–red-light: #FCEBEB;
+–blue: #378ADD;
+–blue-light: #E6F1FB;
+–blue-dark: #0C447C;
+–pink-light: #FBEAF0;
+–pink-dark: #72243E;
+–bg: #FAFAF8;
+–surface: #FFFFFF;
+–border: rgba(0,0,0,0.10);
+–border-md: rgba(0,0,0,0.16);
+–text: #1A1A18;
+–muted: #6B6B68;
+–hint: #A0A09D;
+–radius: 12px;
+–radius-sm: 8px;
+–radius-pill: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #141412;
-    --surface: #1E1E1C;
-    --border: rgba(255,255,255,0.10);
-    --border-md: rgba(255,255,255,0.18);
-    --text: #F0EFE9;
-    --muted: #9A9A97;
-    --hint: #5C5C5A;
-    --green-light: #0A2E22;
-    --amber-light: #2E2208;
-    --red-light: #2E1010;
-    --blue-light: #0A1E33;
-    --pink-light: #2A0F1A;
-  }
+:root {
+–bg: #141412;
+–surface: #1E1E1C;
+–border: rgba(255,255,255,0.10);
+–border-md: rgba(255,255,255,0.18);
+–text: #F0EFE9;
+–muted: #9A9A97;
+–hint: #5C5C5A;
+–green-light: #0A2E22;
+–amber-light: #2E2208;
+–red-light: #2E1010;
+–blue-light: #0A1E33;
+–pink-light: #2A0F1A;
+}
 }
 
 html, body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  overscroll-behavior: none;
+font-family: ‘DM Sans’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+min-height: -webkit-fill-available;
+overscroll-behavior: none;
 }
 
 .app {
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+max-width: 480px;
+margin: 0 auto;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+padding-bottom: calc(72px + env(safe-area-inset-bottom));
 }
 
 /* HEADER */
 .header {
-  padding: 56px 20px 16px;
-  background: var(--surface);
-  border-bottom: 0.5px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+padding: 56px 20px 16px;
+background: var(–surface);
+border-bottom: 0.5px solid var(–border);
+position: sticky;
+top: 0;
+z-index: 10;
 }
 .header-top { display: flex; align-items: center; justify-content: space-between; }
 .header-logo {
-  display: flex; align-items: center; gap: 10px;
+display: flex; align-items: center; gap: 10px;
 }
 .logo-icon {
-  width: 36px; height: 36px; background: var(--green);
-  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+width: 36px; height: 36px; background: var(–green);
+border-radius: 10px; display: flex; align-items: center; justify-content: center;
 }
 .logo-icon svg { width: 20px; height: 20px; fill: white; }
-.app-name { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
+.app-name { font-family: ‘DM Serif Display’, serif; font-size: 20px; color: var(–text); }
 .date-pill {
-  font-size: 12px; color: var(--muted); background: var(--bg);
-  padding: 5px 12px; border-radius: var(--radius-pill);
-  border: 0.5px solid var(--border);
+font-size: 12px; color: var(–muted); background: var(–bg);
+padding: 5px 12px; border-radius: var(–radius-pill);
+border: 0.5px solid var(–border);
 }
 
 /* BOTTOM NAV */
 .bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--surface);
-  border-top: 0.5px solid var(--border);
-  display: flex;
-  padding-bottom: env(safe-area-inset-bottom);
-  z-index: 100;
+position: fixed; bottom: 0; left: 0; right: 0;
+background: var(–surface);
+border-top: 0.5px solid var(–border);
+display: flex;
+padding-bottom: env(safe-area-inset-bottom);
+z-index: 100;
 }
 .nav-item {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  padding: 10px 4px 8px; gap: 4px; cursor: pointer;
-  border: none; background: none; color: var(--hint);
-  font-family: 'DM Sans', sans-serif; font-size: 10px;
-  transition: color 0.15s;
+flex: 1; display: flex; flex-direction: column; align-items: center;
+padding: 10px 4px 8px; gap: 4px; cursor: pointer;
+border: none; background: none; color: var(–hint);
+font-family: ‘DM Sans’, sans-serif; font-size: 10px;
+transition: color 0.15s;
 }
-.nav-item.active { color: var(--green); }
+.nav-item.active { color: var(–green); }
 .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
 
 /* CONTENT */
@@ -124,234 +125,235 @@ html, body {
 
 /* STATS */
 .stats-row {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 8px; margin-bottom: 16px;
+display: grid; grid-template-columns: repeat(3, 1fr);
+gap: 8px; margin-bottom: 16px;
 }
 .stat-card {
-  background: var(--surface); border-radius: var(--radius-sm);
-  border: 0.5px solid var(--border); padding: 12px; text-align: center;
+background: var(–surface); border-radius: var(–radius-sm);
+border: 0.5px solid var(–border); padding: 12px; text-align: center;
 }
-.stat-num { font-size: 24px; font-weight: 600; color: var(--text); }
-.stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.stat-num { font-size: 24px; font-weight: 600; color: var(–text); }
+.stat-label { font-size: 11px; color: var(–muted); margin-top: 2px; }
 
 /* ADD FORM */
 .add-form {
-  background: var(--surface); border-radius: var(--radius);
-  border: 0.5px solid var(--border); padding: 14px; margin-bottom: 16px;
+background: var(–surface); border-radius: var(–radius);
+border: 0.5px solid var(–border); padding: 14px; margin-bottom: 16px;
 }
 .add-form input, .add-form select {
-  width: 100%; padding: 10px 12px; font-size: 15px;
-  border: 0.5px solid var(--border-md); border-radius: var(--radius-sm);
-  background: var(--bg); color: var(--text); outline: none;
-  font-family: 'DM Sans', sans-serif; margin-bottom: 8px;
-  -webkit-appearance: none;
+width: 100%; padding: 10px 12px; font-size: 15px;
+border: 0.5px solid var(–border-md); border-radius: var(–radius-sm);
+background: var(–bg); color: var(–text); outline: none;
+font-family: ‘DM Sans’, sans-serif; margin-bottom: 8px;
+-webkit-appearance: none;
 }
-.add-form input:focus, .add-form select:focus { border-color: var(--green); }
-.add-form input::placeholder { color: var(--hint); }
+.add-form input:focus, .add-form select:focus { border-color: var(–green); }
+.add-form input::placeholder { color: var(–hint); }
 .form-row { display: flex; gap: 8px; }
 .form-row select { flex: 1; margin-bottom: 0; }
 .btn-primary {
-  width: 100%; padding: 12px; background: var(--green); color: white;
-  border: none; border-radius: var(--radius-sm); cursor: pointer;
-  font-size: 15px; font-weight: 500; font-family: 'DM Sans', sans-serif;
-  margin-top: 8px; transition: opacity 0.15s; letter-spacing: 0.01em;
+width: 100%; padding: 12px; background: var(–green); color: white;
+border: none; border-radius: var(–radius-sm); cursor: pointer;
+font-size: 15px; font-weight: 500; font-family: ‘DM Sans’, sans-serif;
+margin-top: 8px; transition: opacity 0.15s; letter-spacing: 0.01em;
 }
 .btn-primary:active { opacity: 0.8; transform: scale(0.99); }
 
 /* FILTER PILLS */
 .cat-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; }
 .cat-pill {
-  padding: 5px 14px; border-radius: var(--radius-pill); font-size: 13px; cursor: pointer;
-  border: 0.5px solid var(--border-md); background: var(--surface); color: var(--muted);
-  white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+padding: 5px 14px; border-radius: var(–radius-pill); font-size: 13px; cursor: pointer;
+border: 0.5px solid var(–border-md); background: var(–surface); color: var(–muted);
+white-space: nowrap; font-family: ‘DM Sans’, sans-serif; transition: all 0.15s;
 }
 .cat-pill.active {
-  background: var(--green-light); border-color: var(--green); color: var(--green-dark);
-  font-weight: 500;
+background: var(–green-light); border-color: var(–green); color: var(–green-dark);
+font-weight: 500;
 }
 
 /* ITEMS */
 .items-list { display: flex; flex-direction: column; gap: 8px; }
 .item-card {
-  background: var(--surface); border-radius: var(--radius);
-  border: 0.5px solid var(--border); padding: 14px;
-  display: flex; align-items: center; gap: 12px;
-  transition: all 0.15s;
+background: var(–surface); border-radius: var(–radius);
+border: 0.5px solid var(–border); padding: 14px;
+display: flex; align-items: center; gap: 12px;
+transition: all 0.15s;
 }
 .item-card.done { opacity: 0.45; }
 .item-card.done .item-name { text-decoration: line-through; }
 
 .check-btn {
-  width: 24px; height: 24px; border-radius: 50%;
-  border: 1.5px solid var(--border-md); cursor: pointer;
-  flex-shrink: 0; background: none; display: flex;
-  align-items: center; justify-content: center; transition: all 0.2s;
+width: 24px; height: 24px; border-radius: 50%;
+border: 1.5px solid var(–border-md); cursor: pointer;
+flex-shrink: 0; background: none; display: flex;
+align-items: center; justify-content: center; transition: all 0.2s;
 }
-.check-btn.checked { background: var(--green); border-color: var(--green); }
+.check-btn.checked { background: var(–green); border-color: var(–green); }
 .check-btn.checked::after {
-  content: ''; width: 7px; height: 4px;
-  border-left: 2px solid white; border-bottom: 2px solid white;
-  transform: rotate(-45deg) translate(1px, -1px); display: block;
+content: ‘’; width: 7px; height: 4px;
+border-left: 2px solid white; border-bottom: 2px solid white;
+transform: rotate(-45deg) translate(1px, -1px); display: block;
 }
 
 .item-body { flex: 1; min-width: 0; }
-.item-name { font-size: 15px; color: var(--text); line-height: 1.3; }
+.item-name { font-size: 15px; color: var(–text); line-height: 1.3; }
 .item-sub { display: flex; gap: 6px; align-items: center; margin-top: 5px; flex-wrap: wrap; }
 
 .tag {
-  font-size: 11px; padding: 2px 9px; border-radius: var(--radius-pill);
-  font-weight: 500;
+font-size: 11px; padding: 2px 9px; border-radius: var(–radius-pill);
+font-weight: 500;
 }
-.tag-green { background: var(--green-light); color: var(--green-dark); }
-.tag-blue { background: var(--blue-light); color: var(--blue-dark); }
-.tag-amber { background: var(--amber-light); color: #633806; }
-.tag-pink { background: var(--pink-light); color: var(--pink-dark); }
-.tag-red { background: var(--red-light); color: #791F1F; }
-.tag-gray { background: var(--bg); color: var(--muted); border: 0.5px solid var(--border-md); }
+.tag-green { background: var(–green-light); color: var(–green-dark); }
+.tag-blue { background: var(–blue-light); color: var(–blue-dark); }
+.tag-amber { background: var(–amber-light); color: #633806; }
+.tag-pink { background: var(–pink-light); color: var(–pink-dark); }
+.tag-red { background: var(–red-light); color: #791F1F; }
+.tag-gray { background: var(–bg); color: var(–muted); border: 0.5px solid var(–border-md); }
 
 .priority-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.p-alta { background: var(--red); }
-.p-media { background: var(--amber); }
-.p-baixa { background: var(--green); }
+.p-alta { background: var(–red); }
+.p-media { background: var(–amber); }
+.p-baixa { background: var(–green); }
 
 .del-btn {
-  border: none; background: none; cursor: pointer;
-  color: var(--hint); font-size: 20px; padding: 4px 6px;
-  line-height: 1; flex-shrink: 0;
+border: none; background: none; cursor: pointer;
+color: var(–hint); font-size: 20px; padding: 4px 6px;
+line-height: 1; flex-shrink: 0;
 }
-.del-btn:active { color: var(--red); }
+.del-btn:active { color: var(–red); }
 
 .empty-state {
-  text-align: center; padding: 40px 20px; color: var(--muted); font-size: 15px;
+text-align: center; padding: 40px 20px; color: var(–muted); font-size: 15px;
 }
 .empty-icon { font-size: 32px; margin-bottom: 8px; }
 
 /* NOTES */
 .notes-area {
-  width: 100%; min-height: 120px; padding: 12px;
-  font-size: 15px; font-family: 'DM Sans', sans-serif;
-  border: 0.5px solid var(--border-md); border-radius: var(--radius-sm);
-  background: var(--bg); color: var(--text); resize: vertical; outline: none;
-  line-height: 1.6; margin-bottom: 8px;
+width: 100%; min-height: 120px; padding: 12px;
+font-size: 15px; font-family: ‘DM Sans’, sans-serif;
+border: 0.5px solid var(–border-md); border-radius: var(–radius-sm);
+background: var(–bg); color: var(–text); resize: vertical; outline: none;
+line-height: 1.6; margin-bottom: 8px;
 }
-.notes-area:focus { border-color: var(--green); }
+.notes-area:focus { border-color: var(–green); }
 
 .saved-note {
-  background: var(--surface); border: 0.5px solid var(--border);
-  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
+background: var(–surface); border: 0.5px solid var(–border);
+border-radius: var(–radius); padding: 14px; margin-bottom: 10px;
 }
 .note-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.note-date { font-size: 12px; color: var(--muted); }
-.note-text { font-size: 14px; color: var(--text); white-space: pre-wrap; line-height: 1.6; }
+.note-date { font-size: 12px; color: var(–muted); }
+.note-text { font-size: 14px; color: var(–text); white-space: pre-wrap; line-height: 1.6; }
 
 /* HIST */
 .hist-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 0; border-bottom: 0.5px solid var(--border); gap: 10px;
+display: flex; justify-content: space-between; align-items: center;
+padding: 12px 0; border-bottom: 0.5px solid var(–border); gap: 10px;
 }
 .hist-item:last-child { border-bottom: none; }
-.hist-name { font-size: 14px; color: var(--text); flex: 1; }
+.hist-name { font-size: 14px; color: var(–text); flex: 1; }
 .hist-right { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
-.hist-date { font-size: 11px; color: var(--hint); }
+.hist-date { font-size: 11px; color: var(–hint); }
 
 .section-label {
-  font-size: 12px; color: var(--muted); text-transform: uppercase;
-  letter-spacing: 0.06em; margin-bottom: 10px; font-weight: 500;
+font-size: 12px; color: var(–muted); text-transform: uppercase;
+letter-spacing: 0.06em; margin-bottom: 10px; font-weight: 500;
 }
 
 /* CALENDAR FULL WIDTH */
 .cal-widget {
-  background: var(--surface); border-radius: var(--radius);
-  border: 0.5px solid var(--border); padding: 16px;
-  margin-bottom: 12px;
+background: var(–surface); border-radius: var(–radius);
+border: 0.5px solid var(–border); padding: 16px;
+margin-bottom: 12px;
 }
 .cal-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 14px;
+display: flex; align-items: center; justify-content: space-between;
+margin-bottom: 14px;
 }
-.cal-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.cal-title { font-size: 15px; font-weight: 600; color: var(–text); }
 .cal-nav {
-  background: var(--bg); border: 0.5px solid var(--border-md);
-  cursor: pointer; color: var(--text); font-size: 18px;
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  line-height: 1; font-family: inherit;
+background: var(–bg); border: 0.5px solid var(–border-md);
+cursor: pointer; color: var(–text); font-size: 18px;
+width: 36px; height: 36px; border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+line-height: 1; font-family: inherit;
 }
-.cal-nav:active { background: var(--green-light); color: var(--green); }
+.cal-nav:active { background: var(–green-light); color: var(–green); }
 .cal-grid {
-  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
 }
 .cal-dow {
-  font-size: 11px; color: var(--hint); text-align: center;
-  padding: 4px 0 8px; font-weight: 500;
+font-size: 11px; color: var(–hint); text-align: center;
+padding: 4px 0 8px; font-weight: 500;
 }
 .cal-day {
-  aspect-ratio: 1; display: flex; align-items: center;
-  justify-content: center; font-size: 14px; color: var(--text);
-  border-radius: 50%; cursor: pointer; position: relative;
-  font-weight: 400; transition: background 0.15s;
+aspect-ratio: 1; display: flex; align-items: center;
+justify-content: center; font-size: 14px; color: var(–text);
+border-radius: 50%; cursor: pointer; position: relative;
+font-weight: 400; transition: background 0.15s;
 }
 .cal-day:active { transform: scale(0.9); }
 .cal-day.empty { pointer-events: none; }
-.cal-day.other-month { color: var(--hint); }
+.cal-day.other-month { color: var(–hint); }
 .cal-day.today {
-  background: var(--green); color: white; font-weight: 600;
+background: var(–green); color: white; font-weight: 600;
 }
 .cal-day.has-event::after {
-  content: ''; position: absolute; bottom: 3px; left: 50%;
-  transform: translateX(-50%); width: 5px; height: 5px;
-  border-radius: 50%; background: var(--amber);
+content: ‘’; position: absolute; bottom: 3px; left: 50%;
+transform: translateX(-50%); width: 5px; height: 5px;
+border-radius: 50%; background: var(–amber);
 }
 .cal-day.today.has-event::after { background: rgba(255,255,255,0.85); }
 .cal-day.selected:not(.today) {
-  background: var(--green-light); color: var(--green-dark);
-  font-weight: 600; outline: 2px solid var(--green); outline-offset: -1px;
+background: var(–green-light); color: var(–green-dark);
+font-weight: 600; outline: 2px solid var(–green); outline-offset: -1px;
 }
 
 .agenda-events-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px;
+display: flex; align-items: center; justify-content: space-between;
+margin-bottom: 10px;
 }
 .agenda-events-title {
-  font-size: 12px; color: var(--muted); font-weight: 600;
-  text-transform: uppercase; letter-spacing: 0.06em;
+font-size: 12px; color: var(–muted); font-weight: 600;
+text-transform: uppercase; letter-spacing: 0.06em;
 }
 .agenda-clear-sel {
-  font-size: 12px; color: var(--green); cursor: pointer;
-  background: none; border: none; font-family: inherit; padding: 0;
+font-size: 12px; color: var(–green); cursor: pointer;
+background: none; border: none; font-family: inherit; padding: 0;
 }
 .event-card {
-  background: var(--surface); border-radius: var(--radius-sm);
-  border: 0.5px solid var(--border); padding: 12px 12px 12px 10px;
-  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+background: var(–surface); border-radius: var(–radius-sm);
+border: 0.5px solid var(–border); padding: 12px 12px 12px 10px;
+display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
 }
 .event-card.done { opacity: 0.45; }
 .event-card.done .event-name { text-decoration: line-through; }
 .event-stripe {
-  width: 3px; align-self: stretch; border-radius: 2px;
-  background: var(--amber); flex-shrink: 0; min-height: 32px;
+width: 3px; align-self: stretch; border-radius: 2px;
+background: var(–amber); flex-shrink: 0; min-height: 32px;
 }
 .event-body { flex: 1; min-width: 0; }
-.event-name { font-size: 15px; color: var(--text); line-height: 1.3; }
-.event-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.event-name { font-size: 15px; color: var(–text); line-height: 1.3; }
+.event-meta { font-size: 12px; color: var(–muted); margin-top: 3px; }
 .event-del {
-  border: none; background: none; cursor: pointer;
-  color: var(--hint); font-size: 20px; padding: 4px 6px; line-height: 1;
+border: none; background: none; cursor: pointer;
+color: var(–hint); font-size: 20px; padding: 4px 6px; line-height: 1;
 }
-.event-del:active { color: var(--red); }
+.event-del:active { color: var(–red); }
 .check-btn-sm {
-  width: 24px; height: 24px; border-radius: 50%;
-  border: 1.5px solid var(--border-md); cursor: pointer;
-  flex-shrink: 0; background: none; display: flex;
-  align-items: center; justify-content: center; transition: all 0.2s;
+width: 24px; height: 24px; border-radius: 50%;
+border: 1.5px solid var(–border-md); cursor: pointer;
+flex-shrink: 0; background: none; display: flex;
+align-items: center; justify-content: center; transition: all 0.2s;
 }
-.check-btn-sm.checked { background: var(--green); border-color: var(--green); }
+.check-btn-sm.checked { background: var(–green); border-color: var(–green); }
 .check-btn-sm.checked::after {
-  content: ''; width: 6px; height: 4px;
-  border-left: 2px solid white; border-bottom: 2px solid white;
-  transform: rotate(-45deg) translate(1px, -1px); display: block;
+content: ‘’; width: 6px; height: 4px;
+border-left: 2px solid white; border-bottom: 2px solid white;
+transform: rotate(-45deg) translate(1px, -1px); display: block;
 }
 </style>
+
 </head>
 <body>
 
@@ -396,80 +398,84 @@ html, body {
       <div class="items-list" id="compras-list"></div>
     </div>
 
-    <!-- TAREFAS -->
-    <div id="tab-tarefas" class="section">
-      <div class="stats-row" id="tarefas-stats"></div>
-      <div class="add-form">
-        <div class="section-label">Nova tarefa</div>
-        <input id="inp-tarefa" placeholder="Ex: Pagar conta, ligar para..." />
-        <div class="form-row">
-          <select id="sel-tarefa-pri">
-            <option value="media">Prioridade média</option>
-            <option value="alta">Prioridade alta</option>
-            <option value="baixa">Prioridade baixa</option>
-          </select>
-          <select id="sel-tarefa-who">
-            <option value="Ambos">Ambos</option>
-            <option value="Voce">Você</option>
-            <option value="Marido">Marido</option>
-          </select>
-        </div>
-        <button class="btn-primary" onclick="addTarefa()">+ Adicionar tarefa</button>
-      </div>
-      <div class="items-list" id="tarefas-list"></div>
+```
+<!-- TAREFAS -->
+<div id="tab-tarefas" class="section">
+  <div class="stats-row" id="tarefas-stats"></div>
+  <div class="add-form">
+    <div class="section-label">Nova tarefa</div>
+    <input id="inp-tarefa" placeholder="Ex: Pagar conta, ligar para..." />
+    <div class="form-row">
+      <select id="sel-tarefa-pri">
+        <option value="media">Prioridade média</option>
+        <option value="alta">Prioridade alta</option>
+        <option value="baixa">Prioridade baixa</option>
+      </select>
+      <select id="sel-tarefa-who">
+        <option value="Ambos">Ambos</option>
+        <option value="Voce">Você</option>
+        <option value="Marido">Marido</option>
+      </select>
     </div>
+    <button class="btn-primary" onclick="addTarefa()">+ Adicionar tarefa</button>
+  </div>
+  <div class="items-list" id="tarefas-list"></div>
+</div>
 
-    <!-- AGENDA -->
-    <div id="tab-agenda" class="section">
-      <div class="add-form">
-        <div class="section-label">Novo evento</div>
-        <input id="inp-evento" placeholder="Ex: Aniversário, consulta..." />
-        <div class="form-row">
-          <input type="date" id="inp-evento-data" style="margin-bottom:0;" />
-          <select id="sel-evento-who">
-            <option value="Ambos">Ambos</option>
-            <option value="Voce">Você</option>
-            <option value="Marido">Marido</option>
-          </select>
-        </div>
-        <button class="btn-primary" onclick="addEvento()">+ Adicionar evento</button>
-      </div>
-      <div class="cal-widget">
-        <div class="cal-header">
-          <button class="cal-nav" onclick="calPrev()">&#8249;</button>
-          <div class="cal-title" id="cal-title"></div>
-          <button class="cal-nav" onclick="calNext()">&#8250;</button>
-        </div>
-        <div class="cal-grid" id="cal-grid"></div>
-      </div>
-      <div class="agenda-events-header">
-        <div class="agenda-events-title" id="agenda-events-title">Todos os eventos</div>
-        <button class="agenda-clear-sel" id="agenda-clear-btn" onclick="calClearSel()" style="display:none;">Ver todos</button>
-      </div>
-      <div id="agenda-events-list"></div>
+<!-- AGENDA -->
+<div id="tab-agenda" class="section">
+  <div class="add-form">
+    <div class="section-label">Novo evento</div>
+    <input id="inp-evento" placeholder="Ex: Aniversário, consulta..." />
+    <div class="form-row">
+      <input type="date" id="inp-evento-data" style="margin-bottom:0;" />
+      <select id="sel-evento-who">
+        <option value="Ambos">Ambos</option>
+        <option value="Voce">Você</option>
+        <option value="Marido">Marido</option>
+      </select>
     </div>
+    <button class="btn-primary" onclick="addEvento()">+ Adicionar evento</button>
+  </div>
+  <div class="cal-widget">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="calPrev()">&#8249;</button>
+      <div class="cal-title" id="cal-title"></div>
+      <button class="cal-nav" onclick="calNext()">&#8250;</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+  <div class="agenda-events-header">
+    <div class="agenda-events-title" id="agenda-events-title">Todos os eventos</div>
+    <button class="agenda-clear-sel" id="agenda-clear-btn" onclick="calClearSel()" style="display:none;">Ver todos</button>
+  </div>
+  <div id="agenda-events-list"></div>
+</div>
 
-    <!-- NOTAS -->
-    <div id="tab-notas" class="section">
-      <div class="add-form">
-        <div class="section-label">Nova nota</div>
-        <textarea class="notes-area" id="nota-text" placeholder="Escreva observações, lembretes, ideias...&#10;&#10;Ex: Senha do wifi, contatos úteis, filmes para assistir..."></textarea>
-        <button class="btn-primary" onclick="saveNota()">Salvar nota</button>
-      </div>
-      <div id="notas-saved"></div>
-    </div>
+<!-- NOTAS -->
+<div id="tab-notas" class="section">
+  <div class="add-form">
+    <div class="section-label">Nova nota</div>
+    <textarea class="notes-area" id="nota-text" placeholder="Escreva observações, lembretes, ideias...&#10;&#10;Ex: Senha do wifi, contatos úteis, filmes para assistir..."></textarea>
+    <button class="btn-primary" onclick="saveNota()">Salvar nota</button>
+  </div>
+  <div id="notas-saved"></div>
+</div>
 
-    <!-- HISTORICO -->
-    <div id="tab-historico" class="section">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <div class="section-label" style="margin:0;">Itens concluídos</div>
-        <button onclick="clearHistorico()" style="font-size:13px;color:var(--muted);background:none;border:0.5px solid var(--border-md);padding:6px 14px;border-radius:var(--radius-pill);cursor:pointer;font-family:'DM Sans',sans-serif;">Limpar</button>
-      </div>
-      <div id="historico-list"></div>
-    </div>
+<!-- HISTORICO -->
+<div id="tab-historico" class="section">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <div class="section-label" style="margin:0;">Itens concluídos</div>
+    <button onclick="clearHistorico()" style="font-size:13px;color:var(--muted);background:none;border:0.5px solid var(--border-md);padding:6px 14px;border-radius:var(--radius-pill);cursor:pointer;font-family:'DM Sans',sans-serif;">Limpar</button>
+  </div>
+  <div id="historico-list"></div>
+</div>
+```
+
   </div>
 
   <!-- BOTTOM NAV -->
+
   <nav class="bottom-nav">
     <button class="nav-item active" id="nav-compras" onclick="showTab('compras')">
       <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7.5 17h11v-2h-10.5c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 21.46 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
@@ -816,5 +822,6 @@ document.getElementById('inp-evento').addEventListener('keydown', e => { if (e.k
 
 render();
 </script>
+
 </body>
 </html>
