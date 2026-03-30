@@ -7,6 +7,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Nossa Casa">
 <title>Nossa Casa</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231D9E75'/%3E%3Cpath d='M90 28 L152 76 L152 150 L118 150 L118 108 L62 108 L62 150 L28 150 L28 76 Z' fill='white'/%3E%3Crect x='70' y='112' width='40' height='38' rx='5' fill='%231D9E75'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231D9E75'/%3E%3Cpath d='M16 5 L27 13 L27 27 L20 27 L20 19 L12 19 L12 27 L5 27 L5 13 Z' fill='white'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -256,6 +258,99 @@ html, body {
   font-size: 12px; color: var(--muted); text-transform: uppercase;
   letter-spacing: 0.06em; margin-bottom: 10px; font-weight: 500;
 }
+
+/* CALENDAR FULL WIDTH */
+.cal-widget {
+  background: var(--surface); border-radius: var(--radius);
+  border: 0.5px solid var(--border); padding: 16px;
+  margin-bottom: 12px;
+}
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.cal-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.cal-nav {
+  background: var(--bg); border: 0.5px solid var(--border-md);
+  cursor: pointer; color: var(--text); font-size: 18px;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; font-family: inherit;
+}
+.cal-nav:active { background: var(--green-light); color: var(--green); }
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+}
+.cal-dow {
+  font-size: 11px; color: var(--hint); text-align: center;
+  padding: 4px 0 8px; font-weight: 500;
+}
+.cal-day {
+  aspect-ratio: 1; display: flex; align-items: center;
+  justify-content: center; font-size: 14px; color: var(--text);
+  border-radius: 50%; cursor: pointer; position: relative;
+  font-weight: 400; transition: background 0.15s;
+}
+.cal-day:active { transform: scale(0.9); }
+.cal-day.empty { pointer-events: none; }
+.cal-day.other-month { color: var(--hint); }
+.cal-day.today {
+  background: var(--green); color: white; font-weight: 600;
+}
+.cal-day.has-event::after {
+  content: ''; position: absolute; bottom: 3px; left: 50%;
+  transform: translateX(-50%); width: 5px; height: 5px;
+  border-radius: 50%; background: var(--amber);
+}
+.cal-day.today.has-event::after { background: rgba(255,255,255,0.85); }
+.cal-day.selected:not(.today) {
+  background: var(--green-light); color: var(--green-dark);
+  font-weight: 600; outline: 2px solid var(--green); outline-offset: -1px;
+}
+
+.agenda-events-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.agenda-events-title {
+  font-size: 12px; color: var(--muted); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.agenda-clear-sel {
+  font-size: 12px; color: var(--green); cursor: pointer;
+  background: none; border: none; font-family: inherit; padding: 0;
+}
+.event-card {
+  background: var(--surface); border-radius: var(--radius-sm);
+  border: 0.5px solid var(--border); padding: 12px 12px 12px 10px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+}
+.event-card.done { opacity: 0.45; }
+.event-card.done .event-name { text-decoration: line-through; }
+.event-stripe {
+  width: 3px; align-self: stretch; border-radius: 2px;
+  background: var(--amber); flex-shrink: 0; min-height: 32px;
+}
+.event-body { flex: 1; min-width: 0; }
+.event-name { font-size: 15px; color: var(--text); line-height: 1.3; }
+.event-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.event-del {
+  border: none; background: none; cursor: pointer;
+  color: var(--hint); font-size: 20px; padding: 4px 6px; line-height: 1;
+}
+.event-del:active { color: var(--red); }
+.check-btn-sm {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--border-md); cursor: pointer;
+  flex-shrink: 0; background: none; display: flex;
+  align-items: center; justify-content: center; transition: all 0.2s;
+}
+.check-btn-sm.checked { background: var(--green); border-color: var(--green); }
+.check-btn-sm.checked::after {
+  content: ''; width: 6px; height: 4px;
+  border-left: 2px solid white; border-bottom: 2px solid white;
+  transform: rotate(-45deg) translate(1px, -1px); display: block;
+}
 </style>
 </head>
 <body>
@@ -339,7 +434,19 @@ html, body {
         </div>
         <button class="btn-primary" onclick="addEvento()">+ Adicionar evento</button>
       </div>
-      <div class="items-list" id="agenda-list"></div>
+      <div class="cal-widget">
+        <div class="cal-header">
+          <button class="cal-nav" onclick="calPrev()">&#8249;</button>
+          <div class="cal-title" id="cal-title"></div>
+          <button class="cal-nav" onclick="calNext()">&#8250;</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+      <div class="agenda-events-header">
+        <div class="agenda-events-title" id="agenda-events-title">Todos os eventos</div>
+        <button class="agenda-clear-sel" id="agenda-clear-btn" onclick="calClearSel()" style="display:none;">Ver todos</button>
+      </div>
+      <div id="agenda-events-list"></div>
     </div>
 
     <!-- NOTAS -->
@@ -580,21 +687,87 @@ function renderTarefas() {
   `).join('');
 }
 
+// Calendar state
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let calSelected = null;
+
+function calPrev() {
+  calMonth--;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderAgenda();
+}
+function calNext() {
+  calMonth++;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderAgenda();
+}
+function calSelectDay(dateStr) {
+  calSelected = calSelected === dateStr ? null : dateStr;
+  renderAgenda();
+}
+function calClearSel() {
+  calSelected = null;
+  renderAgenda();
+}
+
 function renderAgenda() {
-  const sorted = [...data.agenda].sort((a, b) => (a.data || '') > (b.data || '') ? 1 : -1);
-  const el = document.getElementById('agenda-list');
-  if (!sorted.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>Nenhum evento ainda</div>'; return; }
-  el.innerHTML = sorted.map(x => `
-    <div class="item-card ${x.done ? 'done' : ''}">
-      <button class="check-btn ${x.done ? 'checked' : ''}" onclick="toggleItem('agenda',${x.id})"></button>
-      <div class="item-body">
-        <div class="item-name">${x.name}</div>
-        <div class="item-sub">
-          ${x.data ? `<span class="tag tag-amber">${formatDate(x.data)}</span>` : ''}
-          <span class="tag tag-gray">${x.who}</span>
-        </div>
+  const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const DOW = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const today = new Date();
+  const todayStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  const eventDates = new Set(data.agenda.map(x => x.data).filter(Boolean));
+
+  // Calendar title
+  document.getElementById('cal-title').textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
+
+  // Build grid
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+
+  let gridHTML = DOW.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  for (let i = 0; i < firstDay; i++) gridHTML += '<div class="cal-day empty"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const isToday = dateStr === todayStr;
+    const hasEvent = eventDates.has(dateStr);
+    const isSelected = calSelected === dateStr;
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (hasEvent) cls += ' has-event';
+    if (isSelected && !isToday) cls += ' selected';
+    gridHTML += `<div class="${cls}" onclick="calSelectDay('${dateStr}')">${d}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = gridHTML;
+
+  // Events list
+  const clearBtn = document.getElementById('agenda-clear-btn');
+  let filtered = [...data.agenda];
+  if (calSelected) {
+    filtered = filtered.filter(x => x.data === calSelected);
+    const [y,m,d] = calSelected.split('-');
+    document.getElementById('agenda-events-title').textContent = d + '/' + m + '/' + y;
+    clearBtn.style.display = 'block';
+  } else {
+    filtered.sort((a,b) => (a.data||'') > (b.data||'') ? 1 : -1);
+    document.getElementById('agenda-events-title').textContent = 'Todos os eventos';
+    clearBtn.style.display = 'none';
+  }
+
+  const el = document.getElementById('agenda-events-list');
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>' + (calSelected ? 'Nenhum evento neste dia' : 'Nenhum evento ainda') + '</div>';
+    return;
+  }
+  el.innerHTML = filtered.map(x => `
+    <div class="event-card ${x.done ? 'done' : ''}">
+      <button class="check-btn-sm ${x.done ? 'checked' : ''}" onclick="toggleItem('agenda',${x.id})"></button>
+      <div class="event-stripe"></div>
+      <div class="event-body">
+        <div class="event-name">${x.name}</div>
+        <div class="event-meta">${x.data ? formatDate(x.data) + ' · ' : ''}${x.who}</div>
       </div>
-      <button class="del-btn" onclick="delItem('agenda',${x.id})">×</button>
+      <button class="event-del" onclick="delItem('agenda',${x.id})">×</button>
     </div>
   `).join('');
 }
