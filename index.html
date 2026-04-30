@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nossa Casa">
+<title>Nossa Casa</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%231D9E75'/%3E%3Cpath d='M90 28 L152 76 L152 150 L118 150 L118 108 L62 108 L62 150 L28 150 L28 76 Z' fill='white'/%3E%3Crect x='70' y='112' width='40' height='38' rx='5' fill='%231D9E75'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231D9E75'/%3E%3Cpath d='M16 5 L27 13 L27 27 L20 27 L20 19 L12 19 L12 27 L5 27 L5 13 Z' fill='white'/%3E%3C/svg%3E">
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0bVWyZUYh1RvwDFvFueHzHQKebgIxZPI",
+    authDomain: "aplicativo-casa.firebaseapp.com",
+    projectId: "aplicativo-casa",
+    storageBucket: "aplicativo-casa.firebasestorage.app",
+    messagingSenderId: "793140416323",
+    appId: "1:793140416323:web:f9315e059f5162cef269f6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const docRef = doc(db, "casa", "dados");
+
+  // Expose to global scope
+  window._fbSave = async (data) => {
+    try {
+      await setDoc(docRef, { payload: JSON.stringify(data) });
+    } catch(e) { console.error("Firebase save error:", e); }
+  };
+
+  window._fbListen = (callback) => {
+    onSnapshot(docRef, (snap) => {
+      if (snap.exists()) {
+        try {
+          const parsed = JSON.parse(snap.data().payload);
+          callback(parsed);
+        } catch(e) {}
+      }
+    });
+  };
+
+  window._firebaseReady = true;
+  document.dispatchEvent(new Event('firebase-ready'));
+</script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --green: #1D9E75;
+  --green-light: #E1F5EE;
+  --green-dark: #085041;
+  --amber: #EF9F27;
+  --amber-light: #FAEEDA;
+  --red: #E24B4A;
+  --red-light: #FCEBEB;
+  --blue: #378ADD;
+  --blue-light: #E6F1FB;
+  --blue-dark: #0C447C;
+  --pink-light: #FBEAF0;
+  --pink-dark: #72243E;
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --border: rgba(0,0,0,0.10);
+  --border-md: rgba(0,0,0,0.16);
+  --text: #1A1A18;
+  --muted: #6B6B68;
+  --hint: #A0A09D;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-pill: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141412;
+    --surface: #1E1E1C;
+    --border: rgba(255,255,255,0.10);
+    --border-md: rgba(255,255,255,0.18);
+    --text: #F0EFE9;
+    --muted: #9A9A97;
+    --hint: #5C5C5A;
+    --green-light: #0A2E22;
+    --amber-light: #2E2208;
+    --red-light: #2E1010;
+    --blue-light: #0A1E33;
+    --pink-light: #2A0F1A;
+  }
+}
+
+html, body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overscroll-behavior: none;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}
+
+/* HEADER */
+.header {
+  padding: 56px 20px 16px;
+  background: var(--surface);
+  border-bottom: 0.5px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header-top { display: flex; align-items: center; justify-content: space-between; }
+.header-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-icon {
+  width: 36px; height: 36px; background: var(--green);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 20px; height: 20px; fill: white; }
+.app-name { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
+.date-pill {
+  font-size: 12px; color: var(--muted); background: var(--bg);
+  padding: 5px 12px; border-radius: var(--radius-pill);
+  border: 0.5px solid var(--border);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 10px 4px 8px; gap: 4px; cursor: pointer;
+  border: none; background: none; color: var(--hint);
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  transition: color 0.15s;
+}
+.nav-item.active { color: var(--green); }
+.nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+
+/* CONTENT */
+.content { flex: 1; padding: 16px; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* STATS */
+.stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 16px;
+}
+.stat-card {
+  background: var(--surface); border-radius: var(--radius-sm);
+  border: 0.5px solid var(--border); padding: 12px; text-align: center;
+}
+.stat-num { font-size: 24px; font-weight: 600; color: var(--text); }
+.stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ADD FORM */
+.add-form {
+  background: var(--surface); border-radius: var(--radius);
+  border: 0.5px solid var(--border); padding: 14px; margin-bottom: 16px;
+}
+.add-form input, .add-form select {
+  width: 100%; padding: 10px 12px; font-size: 15px;
+  border: 0.5px solid var(--border-md); border-radius: var(--radius-sm);
+  background: var(--bg); color: var(--text); outline: none;
+  font-family: 'DM Sans', sans-serif; margin-bottom: 8px;
+  -webkit-appearance: none;
+}
+.add-form input:focus, .add-form select:focus { border-color: var(--green); }
+.add-form input::placeholder { color: var(--hint); }
+.form-row { display: flex; gap: 8px; }
+.form-row select { flex: 1; margin-bottom: 0; }
+.btn-primary {
+  width: 100%; padding: 12px; background: var(--green); color: white;
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 15px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+  margin-top: 8px; transition: opacity 0.15s; letter-spacing: 0.01em;
+}
+.btn-primary:active { opacity: 0.8; transform: scale(0.99); }
+
+/* FILTER PILLS */
+.cat-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; }
+.cat-pill {
+  padding: 5px 14px; border-radius: var(--radius-pill); font-size: 13px; cursor: pointer;
+  border: 0.5px solid var(--border-md); background: var(--surface); color: var(--muted);
+  white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+}
+.cat-pill.active {
+  background: var(--green-light); border-color: var(--green); color: var(--green-dark);
+  font-weight: 500;
+}
+
+/* ITEMS */
+.items-list { display: flex; flex-direction: column; gap: 8px; }
+.item-card {
+  background: var(--surface); border-radius: var(--radius);
+  border: 0.5px solid var(--border); padding: 14px;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.15s;
+}
+.item-card.done { opacity: 0.45; }
+.item-card.done .item-name { text-decoration: line-through; }
+
+.check-btn {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--border-md); cursor: pointer;
+  flex-shrink: 0; background: none; display: flex;
+  align-items: center; justify-content: center; transition: all 0.2s;
+}
+.check-btn.checked { background: var(--green); border-color: var(--green); }
+.check-btn.checked::after {
+  content: ''; width: 7px; height: 4px;
+  border-left: 2px solid white; border-bottom: 2px solid white;
+  transform: rotate(-45deg) translate(1px, -1px); display: block;
+}
+
+.item-body { flex: 1; min-width: 0; }
+.item-name { font-size: 15px; color: var(--text); line-height: 1.3; }
+.item-sub { display: flex; gap: 6px; align-items: center; margin-top: 5px; flex-wrap: wrap; }
+
+.tag {
+  font-size: 11px; padding: 2px 9px; border-radius: var(--radius-pill);
+  font-weight: 500;
+}
+.tag-green { background: var(--green-light); color: var(--green-dark); }
+.tag-blue { background: var(--blue-light); color: var(--blue-dark); }
+.tag-amber { background: var(--amber-light); color: #633806; }
+.tag-pink { background: var(--pink-light); color: var(--pink-dark); }
+.tag-red { background: var(--red-light); color: #791F1F; }
+.tag-gray { background: var(--bg); color: var(--muted); border: 0.5px solid var(--border-md); }
+
+.priority-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.p-alta { background: var(--red); }
+.p-media { background: var(--amber); }
+.p-baixa { background: var(--green); }
+
+.del-btn {
+  border: none; background: none; cursor: pointer;
+  color: var(--hint); font-size: 20px; padding: 4px 6px;
+  line-height: 1; flex-shrink: 0;
+}
+.del-btn:active { color: var(--red); }
+
+.empty-state {
+  text-align: center; padding: 40px 20px; color: var(--muted); font-size: 15px;
+}
+.empty-icon { font-size: 32px; margin-bottom: 8px; }
+
+/* NOTES */
+.notes-area {
+  width: 100%; min-height: 120px; padding: 12px;
+  font-size: 15px; font-family: 'DM Sans', sans-serif;
+  border: 0.5px solid var(--border-md); border-radius: var(--radius-sm);
+  background: var(--bg); color: var(--text); resize: vertical; outline: none;
+  line-height: 1.6; margin-bottom: 8px;
+}
+.notes-area:focus { border-color: var(--green); }
+
+.saved-note {
+  background: var(--surface); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 14px; margin-bottom: 10px;
+}
+.note-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.note-date { font-size: 12px; color: var(--muted); }
+.note-text { font-size: 14px; color: var(--text); white-space: pre-wrap; line-height: 1.6; }
+
+/* HIST */
+.hist-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0; border-bottom: 0.5px solid var(--border); gap: 10px;
+}
+.hist-item:last-child { border-bottom: none; }
+.hist-name { font-size: 14px; color: var(--text); flex: 1; }
+.hist-right { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.hist-date { font-size: 11px; color: var(--hint); }
+
+.section-label {
+  font-size: 12px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.06em; margin-bottom: 10px; font-weight: 500;
+}
+
+/* SYNC INDICATOR */
+.sync-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); display: inline-block; margin-left: 6px;
+  animation: pulse 2s infinite;
+}
+.sync-dot.offline { background: var(--amber); animation: none; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+}
+
+/* CALENDAR FULL WIDTH */
+.cal-widget {
+  background: var(--surface); border-radius: var(--radius);
+  border: 0.5px solid var(--border); padding: 16px;
+  margin-bottom: 12px;
+}
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.cal-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.cal-nav {
+  background: var(--bg); border: 0.5px solid var(--border-md);
+  cursor: pointer; color: var(--text); font-size: 18px;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1; font-family: inherit;
+}
+.cal-nav:active { background: var(--green-light); color: var(--green); }
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+}
+.cal-dow {
+  font-size: 11px; color: var(--hint); text-align: center;
+  padding: 4px 0 8px; font-weight: 500;
+}
+.cal-day {
+  aspect-ratio: 1; display: flex; align-items: center;
+  justify-content: center; font-size: 14px; color: var(--text);
+  border-radius: 50%; cursor: pointer; position: relative;
+  font-weight: 400; transition: background 0.15s;
+}
+.cal-day:active { transform: scale(0.9); }
+.cal-day.empty { pointer-events: none; }
+.cal-day.other-month { color: var(--hint); }
+.cal-day.today {
+  background: var(--green); color: white; font-weight: 600;
+}
+.cal-day.has-event::after {
+  content: ''; position: absolute; bottom: 3px; left: 50%;
+  transform: translateX(-50%); width: 5px; height: 5px;
+  border-radius: 50%; background: var(--amber);
+}
+.cal-day.today.has-event::after { background: rgba(255,255,255,0.85); }
+.cal-day.selected:not(.today) {
+  background: var(--green-light); color: var(--green-dark);
+  font-weight: 600; outline: 2px solid var(--green); outline-offset: -1px;
+}
+
+.agenda-events-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.agenda-events-title {
+  font-size: 12px; color: var(--muted); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.agenda-clear-sel {
+  font-size: 12px; color: var(--green); cursor: pointer;
+  background: none; border: none; font-family: inherit; padding: 0;
+}
+.event-card {
+  background: var(--surface); border-radius: var(--radius-sm);
+  border: 0.5px solid var(--border); padding: 12px 12px 12px 10px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+}
+.event-card.done { opacity: 0.45; }
+.event-card.done .event-name { text-decoration: line-through; }
+.event-stripe {
+  width: 3px; align-self: stretch; border-radius: 2px;
+  background: var(--amber); flex-shrink: 0; min-height: 32px;
+}
+.event-body { flex: 1; min-width: 0; }
+.event-name { font-size: 15px; color: var(--text); line-height: 1.3; }
+.event-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.event-del {
+  border: none; background: none; cursor: pointer;
+  color: var(--hint); font-size: 20px; padding: 4px 6px; line-height: 1;
+}
+.event-del:active { color: var(--red); }
+.check-btn-sm {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid var(--border-md); cursor: pointer;
+  flex-shrink: 0; background: none; display: flex;
+  align-items: center; justify-content: center; transition: all 0.2s;
+}
+.check-btn-sm.checked { background: var(--green); border-color: var(--green); }
+.check-btn-sm.checked::after {
+  content: ''; width: 6px; height: 4px;
+  border-left: 2px solid white; border-bottom: 2px solid white;
+  transform: rotate(-45deg) translate(1px, -1px); display: block;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div class="header-top">
+      <div class="header-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </div>
+        <span class="app-name">Nossa Casa</span>
+      </div>
+      <div class="date-pill" id="date-badge"></div>
+      <span class="sync-dot" id="sync-dot" title="Sincronizado"></span>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- COMPRAS -->
+    <div id="tab-compras" class="section active">
+      <div class="stats-row" id="compras-stats"></div>
+      <div class="add-form">
+        <div class="section-label">Novo item</div>
+        <input id="inp-compra" placeholder="Ex: Arroz, detergente..." />
+        <div class="form-row">
+          <select id="sel-compra-cat">
+            <option value="Mercado">Mercado</option>
+            <option value="Padaria">Padaria</option>
+            <option value="Farmacia">Farmácia</option>
+            <option value="Limpeza">Limpeza</option>
+            <option value="Hortifruti">Hortifruti</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <select id="sel-compra-who">
+            <option value="Ambos">Ambos</option>
+            <option value="Voce">Você</option>
+            <option value="Marido">Marido</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="addCompra()">+ Adicionar item</button>
+      </div>
+      <div class="cat-filter" id="compras-filter"></div>
+      <div class="items-list" id="compras-list"></div>
+    </div>
+
+    <!-- TAREFAS -->
+    <div id="tab-tarefas" class="section">
+      <div class="stats-row" id="tarefas-stats"></div>
+      <div class="add-form">
+        <div class="section-label">Nova tarefa</div>
+        <input id="inp-tarefa" placeholder="Ex: Pagar conta, ligar para..." />
+        <div class="form-row">
+          <select id="sel-tarefa-pri">
+            <option value="media">Prioridade média</option>
+            <option value="alta">Prioridade alta</option>
+            <option value="baixa">Prioridade baixa</option>
+          </select>
+          <select id="sel-tarefa-who">
+            <option value="Ambos">Ambos</option>
+            <option value="Voce">Você</option>
+            <option value="Marido">Marido</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="addTarefa()">+ Adicionar tarefa</button>
+      </div>
+      <div class="items-list" id="tarefas-list"></div>
+    </div>
+
+    <!-- AGENDA -->
+    <div id="tab-agenda" class="section">
+      <div class="add-form">
+        <div class="section-label">Novo evento</div>
+        <input id="inp-evento" placeholder="Ex: Aniversário, consulta..." />
+        <div class="form-row">
+          <input type="date" id="inp-evento-data" style="margin-bottom:0;" />
+          <select id="sel-evento-who">
+            <option value="Ambos">Ambos</option>
+            <option value="Voce">Você</option>
+            <option value="Marido">Marido</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="addEvento()">+ Adicionar evento</button>
+      </div>
+      <div class="cal-widget">
+        <div class="cal-header">
+          <button class="cal-nav" onclick="calPrev()">&#8249;</button>
+          <div class="cal-title" id="cal-title"></div>
+          <button class="cal-nav" onclick="calNext()">&#8250;</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+      <div class="agenda-events-header">
+        <div class="agenda-events-title" id="agenda-events-title">Todos os eventos</div>
+        <button class="agenda-clear-sel" id="agenda-clear-btn" onclick="calClearSel()" style="display:none;">Ver todos</button>
+      </div>
+      <div id="agenda-events-list"></div>
+    </div>
+
+    <!-- NOTAS -->
+    <div id="tab-notas" class="section">
+      <div class="add-form">
+        <div class="section-label">Nova nota</div>
+        <textarea class="notes-area" id="nota-text" placeholder="Escreva observações, lembretes, ideias...&#10;&#10;Ex: Senha do wifi, contatos úteis, filmes para assistir..."></textarea>
+        <button class="btn-primary" onclick="saveNota()">Salvar nota</button>
+      </div>
+      <div id="notas-saved"></div>
+    </div>
+
+    <!-- HISTORICO -->
+    <div id="tab-historico" class="section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div class="section-label" style="margin:0;">Itens concluídos</div>
+        <button onclick="clearHistorico()" style="font-size:13px;color:var(--muted);background:none;border:0.5px solid var(--border-md);padding:6px 14px;border-radius:var(--radius-pill);cursor:pointer;font-family:'DM Sans',sans-serif;">Limpar</button>
+      </div>
+      <div id="historico-list"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-compras" onclick="showTab('compras')">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7.5 17h11v-2h-10.5c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0 0 21.46 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      Compras
+    </button>
+    <button class="nav-item" id="nav-tarefas" onclick="showTab('tarefas')">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      Tarefas
+    </button>
+    <button class="nav-item" id="nav-agenda" onclick="showTab('agenda')">
+      <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+      Agenda
+    </button>
+    <button class="nav-item" id="nav-notas" onclick="showTab('notas')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Notas
+    </button>
+    <button class="nav-item" id="nav-historico" onclick="showTab('historico')">
+      <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+      Histórico
+    </button>
+  </nav>
+</div>
+
+<script>
+const DAYS = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MONTHS = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const now = new Date();
+document.getElementById('date-badge').textContent = DAYS[now.getDay()] + ', ' + now.getDate() + ' ' + MONTHS[now.getMonth()];
+
+// ── DEFAULT DATA ──────────────────────────────────────────
+function defaultData() {
+  return {
+    compras: [
+      {id:1, name:'Arroz 5kg', cat:'Mercado', who:'Ambos', done:false},
+      {id:2, name:'Detergente', cat:'Limpeza', who:'Você', done:false},
+      {id:3, name:'Pão de forma', cat:'Padaria', who:'Marido', done:false},
+    ],
+    tarefas: [
+      {id:4, name:'Pagar conta de luz', pri:'alta', who:'Marido', done:false},
+      {id:5, name:'Agendar dentista', pri:'media', who:'Ambos', done:false},
+    ],
+    agenda: [
+      {id:6, name:'Reunião do condomínio', data:'2026-04-10', who:'Ambos', done:false},
+      {id:7, name:'Aniversário da Mãe', data:'2026-04-22', who:'Ambos', done:false},
+    ],
+    notas: [],
+    historico: [],
+    nextId: 10,
+    filtroCompras: 'Todos',
+  };
+}
+
+let data = defaultData();
+let _isSyncing = false; // prevent echo loop
+
+// ── FIREBASE SYNC ─────────────────────────────────────────
+function initFirebase() {
+  const dot = document.getElementById('sync-dot');
+
+  window._fbListen((remoteData) => {
+    if (_isSyncing) return;
+    data = remoteData;
+    if (dot) { dot.classList.remove('offline'); }
+    render();
+  });
+
+  if (dot) dot.classList.remove('offline');
+}
+
+if (window._firebaseReady) {
+  initFirebase();
+} else {
+  document.addEventListener('firebase-ready', initFirebase);
+  // fallback: mark offline after 5s
+  setTimeout(() => {
+    if (!window._firebaseReady) {
+      const dot = document.getElementById('sync-dot');
+      if (dot) dot.classList.add('offline');
+    }
+  }, 5000);
+}
+
+// ── PERSISTENCE ───────────────────────────────────────────
+function save() {
+  _isSyncing = true;
+  if (window._fbSave) {
+    window._fbSave(data).finally(() => { setTimeout(() => { _isSyncing = false; }, 500); });
+  } else {
+    setTimeout(() => { _isSyncing = false; }, 500);
+  }
+}
+
+function getId() { return data.nextId++; }
+
+function addToHistory(item, tipo) {
+  data.historico.unshift({...item, tipo, completedAt: new Date().toLocaleDateString('pt-BR')});
+  if (data.historico.length > 60) data.historico.pop();
+}
+
+// ── NAVIGATION ────────────────────────────────────────────
+function showTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('nav-' + tab).classList.add('active');
+  render();
+}
+
+// ── ADD ITEMS ─────────────────────────────────────────────
+function addCompra() {
+  const v = document.getElementById('inp-compra').value.trim();
+  if (!v) return;
+  data.compras.push({
+    id: getId(), name: v,
+    cat: document.getElementById('sel-compra-cat').value,
+    who: document.getElementById('sel-compra-who').value,
+    done: false
+  });
+  document.getElementById('inp-compra').value = '';
+  save(); render();
+}
+
+function addTarefa() {
+  const v = document.getElementById('inp-tarefa').value.trim();
+  if (!v) return;
+  data.tarefas.push({
+    id: getId(), name: v,
+    pri: document.getElementById('sel-tarefa-pri').value,
+    who: document.getElementById('sel-tarefa-who').value,
+    done: false
+  });
+  document.getElementById('inp-tarefa').value = '';
+  save(); render();
+}
+
+function addEvento() {
+  const v = document.getElementById('inp-evento').value.trim();
+  if (!v) return;
+  data.agenda.push({
+    id: getId(), name: v,
+    data: document.getElementById('inp-evento-data').value,
+    who: document.getElementById('sel-evento-who').value,
+    done: false
+  });
+  document.getElementById('inp-evento').value = '';
+  save(); render();
+}
+
+function saveNota() {
+  const v = document.getElementById('nota-text').value.trim();
+  if (!v) return;
+  data.notas.unshift({id: getId(), text: v, date: new Date().toLocaleDateString('pt-BR')});
+  document.getElementById('nota-text').value = '';
+  save(); renderNotas();
+}
+
+// ── ACTIONS ───────────────────────────────────────────────
+function toggleItem(tipo, id) {
+  const idx = data[tipo].findIndex(x => x.id === id);
+  data[tipo][idx].done = !data[tipo][idx].done;
+  if (data[tipo][idx].done) addToHistory(data[tipo][idx], tipo);
+  save(); render();
+}
+
+function delItem(tipo, id) {
+  data[tipo] = data[tipo].filter(x => x.id !== id);
+  save(); render();
+}
+
+function delNota(id) {
+  data.notas = data.notas.filter(x => x.id !== id);
+  save(); renderNotas();
+}
+
+function clearHistorico() {
+  data.historico = [];
+  save(); renderHistorico();
+}
+
+function setFiltroCompras(f) {
+  data.filtroCompras = f;
+  save(); renderCompras();
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const [y, m, day] = d.split('-');
+  return day + '/' + m + '/' + y;
+}
+
+// ── RENDER COMPRAS ────────────────────────────────────────
+function renderCompras() {
+  const cats = ['Todos', ...new Set(data.compras.map(x => x.cat))];
+  document.getElementById('compras-filter').innerHTML = cats.map(c =>
+    `<button class="cat-pill ${data.filtroCompras === c ? 'active' : ''}" onclick="setFiltroCompras('${c}')">${c}</button>`
+  ).join('');
+
+  const total = data.compras.length;
+  const done = data.compras.filter(x => x.done).length;
+  document.getElementById('compras-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-num">${total - done}</div><div class="stat-label">Pendentes</div></div>
+    <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">Comprados</div></div>
+  `;
+
+  const list = data.compras.filter(x => data.filtroCompras === 'Todos' || x.cat === data.filtroCompras);
+  const el = document.getElementById('compras-list');
+  if (!list.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div>Nenhum item na lista</div>'; return; }
+  el.innerHTML = list.map(x => `
+    <div class="item-card ${x.done ? 'done' : ''}">
+      <button class="check-btn ${x.done ? 'checked' : ''}" onclick="toggleItem('compras',${x.id})"></button>
+      <div class="item-body">
+        <div class="item-name">${x.name}</div>
+        <div class="item-sub">
+          <span class="tag tag-green">${x.cat}</span>
+          <span class="tag tag-gray">${x.who}</span>
+        </div>
+      </div>
+      <button class="del-btn" onclick="delItem('compras',${x.id})">×</button>
+    </div>
+  `).join('');
+}
+
+// ── RENDER TAREFAS ────────────────────────────────────────
+function renderTarefas() {
+  const total = data.tarefas.length;
+  const done = data.tarefas.filter(x => x.done).length;
+  document.getElementById('tarefas-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-num">${total - done}</div><div class="stat-label">Pendentes</div></div>
+    <div class="stat-card"><div class="stat-num">${done}</div><div class="stat-label">Feitas</div></div>
+  `;
+  const el = document.getElementById('tarefas-list');
+  if (!data.tarefas.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div>Nenhuma tarefa ainda</div>'; return; }
+  const priLabel = {alta: 'Alta', media: 'Média', baixa: 'Baixa'};
+  const priTag = {alta: 'tag-red', media: 'tag-amber', baixa: 'tag-green'};
+  el.innerHTML = data.tarefas.map(x => `
+    <div class="item-card ${x.done ? 'done' : ''}">
+      <button class="check-btn ${x.done ? 'checked' : ''}" onclick="toggleItem('tarefas',${x.id})"></button>
+      <div class="priority-dot p-${x.pri}"></div>
+      <div class="item-body">
+        <div class="item-name">${x.name}</div>
+        <div class="item-sub">
+          <span class="tag ${priTag[x.pri]}">${priLabel[x.pri]}</span>
+          <span class="tag tag-gray">${x.who}</span>
+        </div>
+      </div>
+      <button class="del-btn" onclick="delItem('tarefas',${x.id})">×</button>
+    </div>
+  `).join('');
+}
+
+// ── RENDER AGENDA + CALENDAR ──────────────────────────────
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let calSelected = null;
+
+function calPrev() { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderAgenda(); }
+function calNext() { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderAgenda(); }
+function calSelectDay(dateStr) { calSelected = calSelected === dateStr ? null : dateStr; renderAgenda(); }
+function calClearSel() { calSelected = null; renderAgenda(); }
+
+function renderAgenda() {
+  const MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const DOW = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const today = new Date();
+  const todayStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  const eventDates = new Set(data.agenda.map(x => x.data).filter(Boolean));
+
+  document.getElementById('cal-title').textContent = MONTH_NAMES[calMonth] + ' ' + calYear;
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+
+  let gridHTML = DOW.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  for (let i = 0; i < firstDay; i++) gridHTML += '<div class="cal-day empty"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const isToday = dateStr === todayStr;
+    const hasEvent = eventDates.has(dateStr);
+    const isSelected = calSelected === dateStr;
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (hasEvent) cls += ' has-event';
+    if (isSelected && !isToday) cls += ' selected';
+    gridHTML += `<div class="${cls}" onclick="calSelectDay('${dateStr}')">${d}</div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = gridHTML;
+
+  const clearBtn = document.getElementById('agenda-clear-btn');
+  let filtered = [...data.agenda];
+  if (calSelected) {
+    filtered = filtered.filter(x => x.data === calSelected);
+    const [y,m,d] = calSelected.split('-');
+    document.getElementById('agenda-events-title').textContent = d + '/' + m + '/' + y;
+    clearBtn.style.display = 'block';
+  } else {
+    filtered.sort((a,b) => (a.data||'') > (b.data||'') ? 1 : -1);
+    document.getElementById('agenda-events-title').textContent = 'Todos os eventos';
+    clearBtn.style.display = 'none';
+  }
+
+  const el = document.getElementById('agenda-events-list');
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>' + (calSelected ? 'Nenhum evento neste dia' : 'Nenhum evento ainda') + '</div>';
+    return;
+  }
+  el.innerHTML = filtered.map(x => `
+    <div class="event-card ${x.done ? 'done' : ''}">
+      <button class="check-btn-sm ${x.done ? 'checked' : ''}" onclick="toggleItem('agenda',${x.id})"></button>
+      <div class="event-stripe"></div>
+      <div class="event-body">
+        <div class="event-name">${x.name}</div>
+        <div class="event-meta">${x.data ? formatDate(x.data) + ' · ' : ''}${x.who}</div>
+      </div>
+      <button class="event-del" onclick="delItem('agenda',${x.id})">×</button>
+    </div>
+  `).join('');
+}
+
+// ── RENDER NOTAS ──────────────────────────────────────────
+function renderNotas() {
+  const el = document.getElementById('notas-saved');
+  if (!data.notas.length) { el.innerHTML = ''; return; }
+  el.innerHTML = data.notas.map(n => `
+    <div class="saved-note">
+      <div class="note-header">
+        <span class="note-date">${n.date}</span>
+        <button class="del-btn" onclick="delNota(${n.id})">×</button>
+      </div>
+      <div class="note-text">${n.text}</div>
+    </div>
+  `).join('');
+}
+
+// ── RENDER HISTORICO ──────────────────────────────────────
+function renderHistorico() {
+  const el = document.getElementById('historico-list');
+  if (!data.historico.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>Histórico vazio</div>'; return; }
+  const tipoLabel = {compras: 'Compra', tarefas: 'Tarefa', agenda: 'Evento'};
+  const tipoTag = {compras: 'tag-green', tarefas: 'tag-blue', agenda: 'tag-amber'};
+  el.innerHTML = '<div>' + data.historico.map(h => `
+    <div class="hist-item">
+      <span class="hist-name">${h.name}</span>
+      <div class="hist-right">
+        <span class="tag ${tipoTag[h.tipo] || 'tag-gray'}">${tipoLabel[h.tipo] || h.tipo}</span>
+        <span class="hist-date">${h.completedAt}</span>
+      </div>
+    </div>
+  `).join('') + '</div>';
+}
+
+function render() {
+  renderCompras();
+  renderTarefas();
+  renderAgenda();
+  renderNotas();
+  renderHistorico();
+}
+
+document.getElementById('inp-compra').addEventListener('keydown', e => { if (e.key === 'Enter') addCompra(); });
+document.getElementById('inp-tarefa').addEventListener('keydown', e => { if (e.key === 'Enter') addTarefa(); });
+document.getElementById('inp-evento').addEventListener('keydown', e => { if (e.key === 'Enter') addEvento(); });
+
+render();
+</script>
+</body>
+</html>
